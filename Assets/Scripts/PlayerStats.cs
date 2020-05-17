@@ -17,6 +17,7 @@ public class PlayerStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //initializes the players stats
         playerHealth = 100;
         playerAmmo = 0;
         playerArmor = 0;
@@ -25,6 +26,7 @@ public class PlayerStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //displays the players stats
         ammoDisplay.GetComponent <Text>().text = "" + playerAmmo;
         healthDisplay.GetComponent<Text>().text = "" + playerHealth + "%";
         armorDisplay.GetComponent<Text>().text = "" + playerArmor + "%";
@@ -33,7 +35,7 @@ public class PlayerStats : MonoBehaviour
 
     void CheckHealth()
     {
-        if(playerHealth <= 0)
+        if(playerHealth <= 0) //when players health reaches zero, the player goes to the lose scene
         {
             SceneManager.LoadScene(1);
         }

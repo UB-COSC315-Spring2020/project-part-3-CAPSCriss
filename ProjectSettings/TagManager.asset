@@ -9,6 +9,12 @@ TagManager:
   - Health
   - Enemy
   - Armor
+  - Rifle
+  - Key1
+  - Door1
+  - Secret
+  - Key2
+  - Door2
   layers:
   - Default
   - TransparentFX

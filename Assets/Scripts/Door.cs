@@ -6,12 +6,10 @@ public class Door : MonoBehaviour
 {
     public bool isOpen = false;
     public Animator doorAnimation;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
+    public GameObject door1;
+    public GameObject door2;
+    public GameObject secretDoor;
+    public ObjectCollision checkingKey; //references the script ObjectCollision
 
     // Update is called once per frame
     void Update()
@@ -24,17 +22,25 @@ public class Door : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Door"))
+        if(other.gameObject.CompareTag("Door")) //sets the isOpen variable true so the player can open it in update by pressing a key
         {
             isOpen = true;
         }
-    }
 
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Door"))
+        if (other.gameObject.CompareTag("Door1") && checkingKey.keyCheck1 == true) //only opens this door if the key is in players inventory
         {
-            isOpen = false;
+            Destroy(door1.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Secret")) //opend the door if the player gets in the collider
+        {
+            Destroy(secretDoor.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Door2") && checkingKey.keyCheck2 == true) //only opens this door if the key needed is in players inventory
+        {
+            Destroy(door2.gameObject);
         }
     }
+
 }

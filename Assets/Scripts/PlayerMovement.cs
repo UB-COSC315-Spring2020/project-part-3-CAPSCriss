@@ -5,24 +5,26 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Transform playerBody;
+    public Transform playerBody; //used for camera movement
 
-    public float moveSpeed = 5f;
-    public float shootDamage = 20f;
+    public float moveSpeed = 5f; //player speed
+    public float shootDamage = 20f; //shooting damage
 
-    private Vector3 moveInput;
-    private Vector3 mouseInput;
+    /*private Vector3 moveInput;    //attempts to make the camera movement work
+    private Vector3 mouseInput;*/
 
-    public float mouseSensitivity = 1f;
-    public Camera viewCam;
+    public float mouseSensitivity = 1f; //used for camera movement
+    public Camera viewCam; //used for player shooting
 
     public RawImage miniMap;
     public Image mapBckg;
     public bool mapOn;
 
+    public Animation shootAnim; //used for player shooting
+
     private void Awake()
     {
-        LockCursor();
+        LockCursor(); //Locks the cursor so it does not get out of the game window
     }
 
     void Start()
@@ -59,13 +61,13 @@ public class PlayerMovement : MonoBehaviour
        //MiniMap
         if (Input.GetKeyDown(KeyCode.M))    
         {
-            if (mapOn == false)
+            if (mapOn == false) //if the map is not active, it will make it active
             {
                 miniMap.enabled = true;
                 mapBckg.enabled = true;
                 mapOn = true;
             }
-            else if (mapOn == true)
+            else if (mapOn == true) //if the map is active, it will disable it
             {
                 miniMap.enabled = false;
                 mapBckg.enabled = false;
@@ -75,12 +77,13 @@ public class PlayerMovement : MonoBehaviour
 
         //Player view, mouse movement
 
-        //mouseInput = new Vector3(Input.GetAxisRaw("Mouse X") * mouseSensitivity, Input.GetAxisRaw("Mouse Y") * mouseSensitivity, 0);
-        //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x - mouseInput.y, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
-        //viewCam.transform.localRotation = Quaternion.Euler(viewCam.transform.localRotation.eulerAngles + new Vector3(0f, mouseInput.y, 0f));
-        //playerRigid.MoveRotation(playerRigid.rotation * Quaternion.Euler(new Vector3(0, Input.GetAxisRaw("Mouse X") * mouseSensitivity, 0)));
+        //Down here are attempts to make the mouse movement work properly
+        /*mouseInput = new Vector3(Input.GetAxisRaw("Mouse X") * mouseSensitivity, Input.GetAxisRaw("Mouse Y") * mouseSensitivity, 0);
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x - mouseInput.y, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
+        viewCam.transform.localRotation = Quaternion.Euler(viewCam.transform.localRotation.eulerAngles + new Vector3(0f, mouseInput.y, 0f));
+        playerRigid.MoveRotation(playerRigid.rotation * Quaternion.Euler(new Vector3(0, Input.GetAxisRaw("Mouse X") * mouseSensitivity, 0)));*/
 
-        CameraRotation();
+        CameraRotation(); //Calling the method that makes the camera movement works.
 
         //Shooting
         if (Input.GetButtonDown("Fire1"))
@@ -92,7 +95,8 @@ public class PlayerMovement : MonoBehaviour
                 EnemyScript enemy = hit.transform.GetComponent<EnemyScript>();
                 Debug.Log("I'm looking at " + hit.transform.name);
                 enemy.TakeDamage(shootDamage);
-                PlayerStats.playerAmmo --;
+                PlayerStats.playerAmmo --; //currently only decreases when the player actually hits the enemy
+                shootAnim.Play(); //does not work
             }
             else
             {
